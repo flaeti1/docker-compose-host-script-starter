@@ -1,0 +1,44 @@
+#!/bin/sh
+
+#    Copyright (C) 2020  by flaeti
+
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation, either version 3 of the License, or
+#    (at your option) any later version.
+
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+# This script provides
+# Execute before and after scripts in host system.
+#
+# To enable
+# cp docker-compose-host-script-starter  /usr/local/bin/
+#
+# You can find more details for each warning at the following page:
+#    https://github.com/flaeti1/docker-compose-host-script-starter/
+
+case $1 in
+	
+	predown)
+	test -x ./docker-compose.predown && sh ./docker-compose.predown || exit 1
+	;;
+	postdown)
+	test -x ./docker-compose.postdown && sh ./docker-compose.postdown || exit 1
+	;;
+	preup)
+	test -x ./docker-compose.preup && sh ./docker-compose.preup || exit 1
+	;;
+	postup)
+	test -x ./docker-compose.postup && sh ./docker-compose.postup || exit 1
+	;;
+	*)
+	echo "docker-compose-host-script-starter {predown|postdown|preup|postup}"
+	exit 1
+esac

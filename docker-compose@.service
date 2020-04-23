@@ -1,0 +1,30 @@
+[Unit]
+Description=%i service with docker compose
+Requires=docker.service
+After=docker.service
+
+[Service]
+#Restart=always
+TimeoutStartSec=1200
+
+WorkingDirectory=/opt/dockerfiles/%i
+
+# Remove old containers, images and volumes and update it
+ExecStartPre=/usr/bin/docker-compose down -v
+ExecStartPre=/usr/bin/docker-compose rm -fv
+ExecStartPre=/usr/bin/docker-compose pull --ignore-pull-failures
+
+# Execute before and after scripts
+ExecStartPre=/usr/local/bin/docker-compose-host-script-starter preup 
+ExecStartPost=/usr/local/bin/docker-compose-host-script-starter postup
+ExecStopPre=/usr/local/bin/docker-compose-host-script-starter predown
+ExecStopPost=/usr/local/bin/docker-compose-host-script-starter postdown
+
+# Compose up
+ExecStart=/usr/bin/docker-compose up
+
+# Compose down, remove containers and volumes
+ExecStop=/usr/bin/docker-compose down
+
+[Install]
+WantedBy=multi-user.target
