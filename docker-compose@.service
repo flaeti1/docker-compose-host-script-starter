@@ -17,7 +17,7 @@ ExecStartPre=/usr/bin/docker-compose pull --ignore-pull-failures
 # Execute before and after scripts
 ExecStartPre=/usr/local/bin/docker-compose-host-script-starter preup 
 ExecStartPost=/usr/local/bin/docker-compose-host-script-starter postup
-ExecStopPre=/usr/local/bin/docker-compose-host-script-starter predown
+ExecStop=/usr/local/bin/docker-compose-host-script-starter predown
 ExecStopPost=/usr/local/bin/docker-compose-host-script-starter postdown
 
 # Compose up
